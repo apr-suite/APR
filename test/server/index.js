@@ -4,6 +4,11 @@ var path = require('path');
 var server = http.createServer(function (req, res) {
 
     var publicDir = path.join(__dirname, 'public');
+    if (path.normalize(decodeURI(req.url)) !== decodeURI(req.url)) {
+        res.statusCode = 403;
+        res.end();
+        return;
+    }
     var file = path.join(publicDir, req.url);
 
     fs.readFile(file, function (error, data) {
